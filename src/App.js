@@ -1,10 +1,23 @@
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import MainLayout from './routes/MainLayout';
+import Home from './routes/Home';
+import Country from './routes/Country';
 
 function App() {
   return (
-    <div className="App">
-      <h1>REST Countries API</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="/:country" element={<Country />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
