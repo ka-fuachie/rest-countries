@@ -12,7 +12,7 @@ const Select = styled.select`
 const Dropdown = () => {
     return (
         <Select>
-            <option value="" disabled selected hidden>Filter by Region</option>
+            <option value="" selected disabled hidden>Filter by Region</option>
             <option value="africa">Africa</option>
             <option value="america">America</option>
             <option value="asia">Asia</option>
