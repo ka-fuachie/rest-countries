@@ -1,3 +1,18 @@
+:root{
+  --clr-dark-blue: 209 23% 22%;
+  --clr-very-dark-blue-bg: 207 26% 17%;
+  --clr-very-dark-blue-text: 200 15% 8%;
+  --clr-dark-gray: 0 0% 52%;
+  --clr-very-light-gray: 0 0% 98%;
+  --clr-white: 0 0% 100%;
+
+  --fw-normal: 300;
+  --fw-bold: 600;
+  --fw-very-bold: 800;
+}
+
 .App {
+  flex: 1;
   font-family: 'Nunito Sans', sans-serif;
+  font-weight: var(--fw-normal);
 }
