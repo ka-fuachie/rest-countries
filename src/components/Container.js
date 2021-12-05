@@ -1,10 +1,12 @@
 import styled from "styled-components"
 
-const Container = () => {
+const StyledContainer = styled.main`
+    padding: 1.5em 1em;
+`
+
+const Container = ({children}) => {
     return (
-        <div>
-            
-        </div>
+        <StyledContainer> {children} </StyledContainer>
     )
 }
 

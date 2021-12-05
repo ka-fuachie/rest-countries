@@ -1,8 +1,11 @@
+import Container from "../components/Container"
+import SearchBar from "../components/SearchBar"
+
 const Home = () => {
     return (
-        <main>
-            <h1>{"Home"}</h1>
-        </main>
+        <Container>
+            <SearchBar />
+        </Container>
     )
 }
 
