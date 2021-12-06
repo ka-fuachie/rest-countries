@@ -19,15 +19,15 @@ const Section = styled.section`
 `
 
 const Home = () => {
-    //// useEffect(() => {
-    ////     const test = async() => {
-    ////         const res = await fetch('https://restcountries.com/v3.1/all')
-    ////         const data = res.json()
-    ////         console.log(data);
-    ////     }
+    // useEffect(() => {
+    //     const test = async() => {
+    //         const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3')
+    //         const data = res.json()
+    //         console.log(data);
+    //     }
     
-    ////     test()
-    //// }, [])
+    //     test()
+    // }, [])
 
     return (
         <Container>

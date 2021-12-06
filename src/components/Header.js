@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { useUpdateTheme } from "../theme/ThemeContext"
 
 const StyledHeader = styled.header`
     display: flex;
@@ -35,10 +36,12 @@ const MoonIcon = () => {
 }
 
 const Header = () => {
+    const toggleTheme = useUpdateTheme()
+
     return (
         <StyledHeader>
             <Title>Where in the world?</Title>
-            <Button role="switch" aria-checked="false" >
+            <Button role="switch" aria-checked="false" onClick={toggleTheme} >
                 <MoonIcon />
                 <p>Dark mode</p>
             </Button>

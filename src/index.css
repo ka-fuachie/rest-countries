@@ -5,14 +5,12 @@
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
-}
-
-button, 
-input, 
-select,
-option{
+  background-color: inherit;
+  color: inherit;
   font-family: inherit;
   font-weight: inherit;
+
+  transition: background-color 500ms ease-in, color 250ms linear, fill 250ms linear;
 }
 
 body {
