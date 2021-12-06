@@ -12,12 +12,12 @@ const fetchCountries = async() => {
     return data
 }
 
-const fetchCountry = async(name) => {
-    const res = await fetch(`https://restcountries.com/v3.1/flag/${name}?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3`)
+// const fetchCountry = async(name) => {
+//     const res = await fetch(`https://restcountries.com/v3.1/flag/${name}?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3`)
 
-    const data = res.json()
-    return data
-}
+//     const data = res.json()
+//     return data
+// }
 
 const ApiProvider = ({children}) => {
     const [data, setData] = useState([])
