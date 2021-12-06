@@ -9,6 +9,9 @@
   --fw-normal: 300;
   --fw-bold: 600;
   --fw-very-bold: 800;
+
+  --bs-light: 0em 0em 0.5em hsl(0 0% 0% / 0.15);
+  --bs-dark: 0em 0.1em 0.3em hsl(0 0% 0% / 0.2);
 }
 
 .App {

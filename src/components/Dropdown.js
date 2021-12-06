@@ -2,11 +2,11 @@ import styled from "styled-components"
 
 const Select = styled.select`
     align-self: flex-start;
-    padding: 0.5em 1em;
+    padding: 1em 1.5em;
     background-color: transparent;
     border: none;
     border-radius: 0.25em;
-    box-shadow: 0em 0em 0.5em hsl(0 0% 0% / 0.25);
+    box-shadow: var(--bs-light);
 `
 
 const Dropdown = () => {

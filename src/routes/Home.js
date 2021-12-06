@@ -8,7 +8,7 @@ import CountryCard from "../components/CountryCard"
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 2.5em;
 `
 
 const Section = styled.section`

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 const Card = styled(Link)`
     border-radius: 1em;
-    box-shadow: 0em 0em 0.5em hsl(0 0% 0% / 0.2);
+    box-shadow: var(--bs-light);
     text-decoration: none;
 `
 
