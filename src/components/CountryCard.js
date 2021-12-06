@@ -2,9 +2,13 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 
 const Card = styled(Link)`
-    border-radius: 1em;
+    border-radius: 1em 1em;
     box-shadow: var(--bs-light);
     text-decoration: none;
+`
+
+const Image = styled.img`
+    border-radius: 1em 1em 0em 0em;
 `
 
 const TextBox = styled.div`
@@ -22,15 +26,15 @@ const Bold = styled.span`
 `
 
 
-const CountryCard = () => {
+const CountryCard = ({flag, name, population, region, capital}) => {
     return (
         <Card to="/">
-            <svg></svg>
+            <Image src={flag} alt={name} />
             <TextBox>
-                <Title>Germany</Title>
-                <p><Bold>Population:</Bold>81,770,900</p>
-                <p><Bold>Region:</Bold>Europe</p>
-                <p><Bold>Capital:</Bold>Berlin</p>
+                <Title>{name}</Title>
+                <p><Bold>Population:</Bold>{population}</p>
+                <p><Bold>Region:</Bold>{region}</p>
+                <p><Bold>Capital:</Bold>{capital}</p>
             </TextBox>
         </Card>
     )

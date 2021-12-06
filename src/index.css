@@ -13,6 +13,14 @@
   transition: background-color 500ms ease-in, color 250ms linear;
 }
 
+a{
+  text-decoration: none;
+}
+
+img{
+  width: 100%
+}
+
 body {
   padding: 0;
   min-height: 100vh;

@@ -31,6 +31,7 @@ const ApiProvider = ({children}) => {
         fetchData()
     }, [])
 
+    // TODO: Add a loading value
     return (
         <ApiContext.Provider value={data} >
             {children}

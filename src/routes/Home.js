@@ -20,6 +20,13 @@ const Section = styled.section`
 
 const Home = () => {
     const countries = useApi()
+    const me = countries[10]
+
+    console.log(me.name.common);
+    console.log(me.population);
+    console.log(me.region);
+    console.log(me.capital[0]);
+    console.log(me.flags.svg);
 
     return (
         <Container>
@@ -28,8 +35,13 @@ const Home = () => {
                 <Dropdown />
             </Form>
             <Section>
-                <CountryCard />
-                <CountryCard />
+                <CountryCard 
+                    name={me.name.common}
+                    population={me.population}
+                    region={me.region}
+                    capital={me.capital[0]}
+                    flag={me.flags.svg}
+                />
             </Section>
         </Container>
     )
