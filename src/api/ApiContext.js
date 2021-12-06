@@ -33,7 +33,7 @@ const ApiProvider = ({children}) => {
 
     // TODO: Add a loading value
     return (
-        <ApiContext.Provider value={data} >
+        <ApiContext.Provider value={{data}} >
             {children}
         </ApiContext.Provider>
     )

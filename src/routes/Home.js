@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useApi } from "../api/ApiContext"
 import Container from "../components/Container"
@@ -12,21 +13,26 @@ const Form = styled.form`
 `
 
 const Section = styled.section`
+    flex: 1;
     padding: 3em 2em;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 3em;
 `
 
 const Home = () => {
-    const countries = useApi()
-    const me = countries[10]
+    const data = useApi().data
+    const [countries, setCountries] = useState([])
 
-    console.log(me.name.common);
-    console.log(me.population);
-    console.log(me.region);
-    console.log(me.capital[0]);
-    console.log(me.flags.svg);
+    useEffect(() => {
+        setCountries(data)
+
+        return () => {
+            setCountries([])
+        }
+    }, [data])
 
     return (
         <Container>
@@ -35,13 +41,18 @@ const Home = () => {
                 <Dropdown />
             </Form>
             <Section>
-                <CountryCard 
-                    name={me.name.common}
-                    population={me.population}
-                    region={me.region}
-                    capital={me.capital[0]}
-                    flag={me.flags.svg}
-                />
+                {
+                    countries.map((country, index) => (
+                        <CountryCard
+                            name={country.name.common}
+                            population={country.population}
+                            region={country.region}
+                            capital={country.capital[0]}
+                            flag={country.flags.svg}
+                            key={index + 1}
+                        />
+                    ))
+                }
             </Section>
         </Container>
     )
