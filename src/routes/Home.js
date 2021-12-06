@@ -1,5 +1,5 @@
-import { useEffect } from "react"
 import styled from "styled-components"
+import { useApi } from "../api/ApiContext"
 import Container from "../components/Container"
 import SearchBar from "../components/SearchBar"
 import Dropdown from "../components/Dropdown"
@@ -19,15 +19,7 @@ const Section = styled.section`
 `
 
 const Home = () => {
-    // useEffect(() => {
-    //     const test = async() => {
-    //         const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3')
-    //         const data = res.json()
-    //         console.log(data);
-    //     }
-    
-    //     test()
-    // }, [])
+    const countries = useApi()
 
     return (
         <Container>
