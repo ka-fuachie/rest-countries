@@ -1,39 +1,76 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useState} from 'react'
 
 const ApiContext = React.createContext()
 export const useApi = () => (useContext(ApiContext))
 
 
 // TODO: Add try catch for error handling to async funcs
-const fetchCountries = async() => {
-    const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3')
+const fetchCountries = async(callback) => {
+    let data = []
+    try{
+        const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3')
 
-    const data = res.json()
-    return data
+        data = res.json()
+        return data
+    }catch(e){
+        return data
+    }finally{
+        callback()
+    }
 }
 
-// const fetchCountry = async(name) => {
-//     const res = await fetch(`https://restcountries.com/v3.1/flag/${name}?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3`)
+const fetchCountry = async(name, callback) => {
+    let data = {}
 
-//     const data = res.json()
-//     return data
-// }
+    try{
+        const res = await fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3`)
+
+        data = res.json()    
+    }catch(e){
+        return data
+    }finally{
+        callback()
+    }
+
+}
 
 const ApiProvider = ({children}) => {
-    const [data, setData] = useState([])
+    const [cache, setCache] = useState({})
+    const [isLoading, setIsLoading] = useState(true)
+    const [isProcessing, setIsProcessing] = useState(true)
+    
+    const getCountries = async () => {
+        if(cache.countries != null) return cache.countries
 
-    useEffect(() => {
-        const fetchData = async() => {
-            const countries = await fetchCountries()
-            setData(countries)
-        }
+        setIsLoading(true)
+        const countries = await fetchCountries(() => setIsLoading(false))
+        setCache((prevValue) => (
+            {countries}
+        ))
+        return countries
+    }
 
-        fetchData()
-    }, [])
+    const getCountry = async (name) => {
+        let country = cache?.countries?.filter(country => country?.name == name)
+        if(country != null) return country
 
-    // TODO: Add a loading value
+        setIsLoading(true)
+        country = await fetchCountry(name, () => setIsLoading(false))
+        setCache((prevValue) => (
+            {countries: [...country]}
+        ))
+
+        return country
+    }
+
+
     return (
-        <ApiContext.Provider value={{data}} >
+        <ApiContext.Provider value={{
+            getCountries,
+            getCountry,
+            isLoading,
+            isProcessing
+        }} >
             {children}
         </ApiContext.Provider>
     )

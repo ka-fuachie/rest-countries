@@ -34,8 +34,8 @@ const Bold = styled.span`
 
 const CountryCard = ({flag, name, population, region, capital}) => {
     return (
-        <Card to="/">
-            <Image role="img" src={flag} alt={name} />
+        <Card to={`/country/${name.toLowerCase()}`}>
+            <Image role="img" src={flag} alt={name} onLoadStart={() => console.log('loaded')} />
             <TextBox>
                 <Title>{name}</Title>
                 <p><Bold>Population:</Bold>{population}</p>

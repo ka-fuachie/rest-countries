@@ -23,16 +23,21 @@ const Section = styled.section`
 `
 
 const Home = () => {
-    const data = useApi().data
     const [countries, setCountries] = useState([])
+    const countriesApi = useApi()
 
     useEffect(() => {
-        setCountries(data)
+        const tempFunc = async () => {
+            const temp = await countriesApi.getCountries()
+            setCountries(temp)
+        }
+
+        tempFunc()
 
         return () => {
             setCountries([])
         }
-    }, [data])
+    }, [])
 
     return (
         <Container>
@@ -41,7 +46,7 @@ const Home = () => {
                 <Dropdown />
             </Form>
             <Section>
-                {
+                {!countriesApi.isLoading &&
                     countries.map((country, index) => (
                         <CountryCard
                             name={country.name.common}
@@ -53,6 +58,17 @@ const Home = () => {
                         />
                     ))
                 }
+                {/* {
+                    countries && 
+                        <CountryCard
+                            name={countries.name.common}
+                            population={countries.population}
+                            region={countries.region}
+                            capital={countries.capital[0]}
+                            flag={countries.flags.svg}
+                        />
+                }
+ */}
             </Section>
         </Container>
     )
