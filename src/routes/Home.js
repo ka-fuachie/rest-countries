@@ -37,7 +37,7 @@ const Home = () => {
         return () => {
             setCountries([])
         }
-    }, [])
+    }, [countriesApi])
 
     return (
         <Container>

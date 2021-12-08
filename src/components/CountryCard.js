@@ -34,7 +34,7 @@ const Bold = styled.span`
 
 const CountryCard = ({flag, name, population, region, capital}) => {
     return (
-        <Card to={`/country/${name.toLowerCase()}`}>
+        <Card to={`/country/${name.toLowerCase().replace(/\s+/g, "-")}`}>
             <Image role="img" src={flag} alt={name} onLoadStart={() => console.log('loaded')} />
             <TextBox>
                 <Title>{name}</Title>

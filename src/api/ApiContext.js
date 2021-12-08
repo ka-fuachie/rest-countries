@@ -8,7 +8,7 @@ export const useApi = () => (useContext(ApiContext))
 const fetchCountries = async(callback) => {
     let data = []
     try{
-        const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3')
+        const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,nativeName,subregion,tld,languages,currencies,flag,flags,borders,cca3')
 
         data = res.json()
         return data
@@ -23,9 +23,10 @@ const fetchCountry = async(name, callback) => {
     let data = {}
 
     try{
-        const res = await fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,region,nativeName,subRegion,tld,languages,currencies,flag,flags,borders,cca3`)
+        const res = await fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,region,nativeName,subregion,tld,languages,currencies,flag,flags,borders,cca3`)
 
-        data = res.json()    
+        data = res.json()  
+        return data  
     }catch(e){
         return data
     }finally{
@@ -51,16 +52,16 @@ const ApiProvider = ({children}) => {
     }
 
     const getCountry = async (name) => {
-        let country = cache?.countries?.filter(country => country?.name == name)
-        if(country != null) return country
+        setIsProcessing(true)
+        let country = cache?.countries?.filter(country => country.name.common.toLowerCase() === name)[0]
+        if(country != null) {
+            setIsProcessing(false)
+            return country
+        }
 
-        setIsLoading(true)
-        country = await fetchCountry(name, () => setIsLoading(false))
-        setCache((prevValue) => (
-            {countries: [...country]}
-        ))
+        country = await fetchCountry(name, () => setIsProcessing(false))
 
-        return country
+        return country[0]
     }
 
 
