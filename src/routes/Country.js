@@ -53,22 +53,24 @@ const Country = () => {
     const [country, setCountry] = useState({})
     const [error, setError] = useState(false)
 
+
     const loadData = async () => {
-        const [data, error] = await countriesApi.getCountry(params.country.replace(/-/g, ' '))
+        const [data, error] = await countriesApi.getCountry(params.country.replace(/_/g, ' '))
         setCountry(formatCountryData(data))
         setError(error)
-        console.log([formatCountryData(data), error]);
+        // console.log([formatCountryData(data), error]);
     }
 
 
     useEffect(() => {
-
         loadData()
 
         return () => {
             setCountry({})
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
 
     const goBack = () => navigate(-1)
 
