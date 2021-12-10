@@ -24,15 +24,18 @@ const Section = styled.section`
 
 const Home = () => {
     const [countries, setCountries] = useState([])
+    const [error, setError] = useState(false)
     const countriesApi = useApi()
 
     useEffect(() => {
-        const tempFunc = async () => {
-            const temp = await countriesApi.getCountries()
-            setCountries(temp)
+        const loadData = async () => {
+            const [data, error] = await countriesApi.getCountries()
+            setCountries(data)
+            setError(error)
+            console.log([data, error]);
         }
 
-        tempFunc()
+        loadData()
 
         return () => {
             setCountries([])
@@ -59,16 +62,16 @@ const Home = () => {
                     ))
                 }
                 {/* {
-                    countries && 
+                    countries[0] && 
                         <CountryCard
-                            name={countries.name.common}
-                            population={countries.population}
-                            region={countries.region}
-                            capital={countries.capital[0]}
-                            flag={countries.flags.svg}
+                            name={countries[0].name.common}
+                            population={countries[0].population}
+                            region={countries[0].region}
+                            capital={countries[0].capital[0]}
+                            flag={countries[0].flags.svg}
                         />
-                }
- */}
+                } */}
+
             </Section>
         </Container>
     )

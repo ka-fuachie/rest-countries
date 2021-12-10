@@ -49,21 +49,24 @@ const Country = () => {
     const countriesApi = useApi()
     const navigate = useNavigate()
     const [country, setCountry] = useState({})
+    const [error, setError] = useState(false)
+
 
     useEffect(() => {
-        const tempFunc = async () => {
-            const temp = await countriesApi.getCountry(params.country.replace(/-/g, ' '))
-            setCountry(temp)
-            // console.log(temp);
+        const loadData = async () => {
+            const [data, error] = await countriesApi.getCountry(params.country.replace(/-/g, ' '))
+            setCountry(data)
+            setError(error)
+            console.log([data, error]);
             // console.log(Object.values(Object.values(temp.currencies)[0])[0]);
         }
 
-        tempFunc()
+        loadData()
 
         return () => {
             setCountry({})
         }
-    }, [countriesApi, params.country])
+    }, [])
 
     const goBack = () => navigate(-1)
 

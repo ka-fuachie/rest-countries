@@ -6,29 +6,30 @@ export const useApi = () => (useContext(ApiContext))
 
 // TODO: Add try catch for error handling to async funcs
 const fetchCountries = async(callback) => {
-    let data = []
+    let error = false
     try{
         const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,nativeName,subregion,tld,languages,currencies,flag,flags,borders,cca3')
 
-        data = res.json()
-        return data
+        const data = await res.json()
+        return [data, error]
     }catch(e){
-        return data
+        error = true
+        return [null, error]
     }finally{
         callback()
     }
 }
 
 const fetchCountry = async(name, callback) => {
-    let data = {}
-
+    let error = false
     try{
         const res = await fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,region,nativeName,subregion,tld,languages,currencies,flag,flags,borders,cca3`)
 
-        data = res.json()  
-        return data  
+        const data = await res.json()  
+        return [data, error] 
     }catch(e){
-        return data
+        error = true
+        return [null, error]
     }finally{
         callback()
     }
@@ -41,27 +42,28 @@ const ApiProvider = ({children}) => {
     const [isProcessing, setIsProcessing] = useState(true)
     
     const getCountries = async () => {
-        if(cache.countries != null) return cache.countries
+        if(cache.countries != null) return [cache.countries, false]
 
         setIsLoading(true)
-        const countries = await fetchCountries(() => setIsLoading(false))
+        const [countries, error] = await fetchCountries(() => setIsLoading(false))
         setCache((prevValue) => (
             {countries}
         ))
-        return countries
+        return [countries, error]
     }
 
     const getCountry = async (name) => {
+        let error
         setIsProcessing(true)
         let country = cache?.countries?.filter(country => country.name.common.toLowerCase() === name)[0]
         if(country != null) {
             setIsProcessing(false)
-            return country
+            return [country, false]
         }
 
-        country = await fetchCountry(name, () => setIsProcessing(false))
+        [country, error] = await fetchCountry(name, () => setIsProcessing(false))
 
-        return country[0]
+        return [country[0], error]
     }
 
 
