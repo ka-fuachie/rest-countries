@@ -72,7 +72,8 @@ const ApiProvider = ({children}) => {
             getCountries,
             getCountry,
             isLoading,
-            isProcessing
+            isProcessing,
+            cache
         }} >
             {children}
         </ApiContext.Provider>

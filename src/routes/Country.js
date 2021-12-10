@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router"
 import styled from "styled-components"
 import { useApi } from "../api/ApiContext"
+import formatCountryData from "../utils/formatCountriesData"
 import Container from "../components/Container"
 
 const Button = styled.button`
@@ -29,10 +30,11 @@ const Section = styled.section`
     margin-top: 0.5em;
     /* gap: 2em; */
 `
-const TextBox = styled.div`
-    padding-inline: 2em;
-    padding-block: 2em 3em;
-    border-radius: 0em 0em 1em 1em;
+const Box = styled.div`
+    padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
 `
 
 const Title = styled.h2`
@@ -41,7 +43,7 @@ const Title = styled.h2`
 `
 const Bold = styled.span`
     font-weight: var(--fw-bold);
-    padding-right: 0.25em;
+    padding-right: 0.5em;
 `
 
 const Country = () => {
@@ -51,15 +53,15 @@ const Country = () => {
     const [country, setCountry] = useState({})
     const [error, setError] = useState(false)
 
+    const loadData = async () => {
+        const [data, error] = await countriesApi.getCountry(params.country.replace(/-/g, ' '))
+        setCountry(formatCountryData(data))
+        setError(error)
+        console.log([formatCountryData(data), error]);
+    }
+
 
     useEffect(() => {
-        const loadData = async () => {
-            const [data, error] = await countriesApi.getCountry(params.country.replace(/-/g, ' '))
-            setCountry(data)
-            setError(error)
-            console.log([data, error]);
-            // console.log(Object.values(Object.values(temp.currencies)[0])[0]);
-        }
 
         loadData()
 
@@ -77,50 +79,33 @@ const Country = () => {
                 <p>Back</p>
             </Button>
             <Section>
-                {!countriesApi.isProcessing &&
+                {!countriesApi.isProcessing && !error &&
                     <>
-                        {country.flags &&
-                            <img src={country.flags.svg} alt={country.name.common} />
-                        }
-                        <TextBox>
-                            {country.name &&
-                                <Title>{country.name.common}</Title>
-                            }
-                            {country.name &&
-                                <p><Bold>Native Name:</Bold>{Object.values(Object.values(country.name.nativeName)[0])[0]}</p>
-                            }
-                            {country.population &&
-                                <p><Bold>Population:</Bold>{country.population}</p>
-                            }
-                            {country.region &&
-                                <p><Bold>Region:</Bold>{country.region}</p>
-                            }
-                            {country.subregion &&
-                                <p><Bold>Sub Region:</Bold>{country.subregion}</p>
-                            }
-                            {country.capital &&
-                                <p><Bold>Capital:</Bold>{country.capital[0]}</p>
-                            }
+                        <img src={country.flag} alt={country.name} />
 
-                        </TextBox>
-                        <TextBox>
-                            {country.tld &&
-                                <p><Bold>Top Level Domain:</Bold>{country.tld[0]}</p>
-                            }
-                            {country.currencies &&
-                                <p><Bold>Currencies:</Bold>{Object.values(Object.values(country.currencies)[0])[0]}</p>
-                            }
-                            {country.languages &&
-                                <p><Bold>languages:</Bold>{Object.values(country.languages).map(language => `${language}, `)}</p>
-                            }
+                        <Box>
+                            <Title>{country.name}</Title>
+                            <p><Bold>Native Name:</Bold>{country.nativeName}</p>
+                            <p><Bold>Population:</Bold>{country.population}</p>
+                            <p><Bold>Region:</Bold>{country.region}</p>
+                            <p><Bold>Sub Region:</Bold>{country.subRegion}</p>
+                            <p><Bold>Capital:</Bold>{country.capital}</p>
+                        </Box>
 
+                        <Box>
+                            <p><Bold>Top Level Domain:</Bold>{country.tld}</p>
+                            <p><Bold>Currencies:</Bold>{country.currencies}</p>
+                            <p><Bold>Languages:</Bold>{country.languages}</p>
+                        </Box>
 
-                        </TextBox>
-                        <div>
-                            <Bold as='p'>Border Countries:</Bold>
-                            <div></div>
-                        </div>
+                        <Box>
+                            <Bold as="p">Border Countries:</Bold>
+                            {/* {country?.borders.map(border => (
+                                <Button>{border}</Button>
+                            ))} */}
+                        </Box>
                     </>
+
                 }
             </Section>
         </Container>

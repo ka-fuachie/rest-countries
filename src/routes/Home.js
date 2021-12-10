@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useApi } from "../api/ApiContext"
+import formatCountryData from "../utils/formatCountriesData"
 import Container from "../components/Container"
 import SearchBar from "../components/SearchBar"
 import Dropdown from "../components/Dropdown"
@@ -33,6 +34,8 @@ const Home = () => {
             setCountries(data)
             setError(error)
             console.log([data, error]);
+            data[0] && console.log(data.map(value => formatCountryData(value)));
+            // console.log(formatCountryData(data[0]));
         }
 
         loadData()
@@ -49,7 +52,7 @@ const Home = () => {
                 <Dropdown />
             </Form>
             <Section>
-                {!countriesApi.isLoading &&
+                {!countriesApi.isLoading && !error &&
                     countries.map((country, index) => (
                         <CountryCard
                             name={country.name.common}
