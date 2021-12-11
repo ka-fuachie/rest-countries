@@ -25,6 +25,7 @@ const Section = styled.section`
 const Home = () => {
     const [countries, setCountries] = useState([])
     const [filteredCountries, setFilteredCountries] = useState([])
+    const [activeRegion, setActiveRegion] = useState('')
     const [error, setError] = useState(false)
     const [searchText, setSearchText] = useState('')
     const countriesApi = useApi()
@@ -39,14 +40,28 @@ const Home = () => {
     }
 
     useEffect(() => {
-        if(!searchText || /^\s*$/.test(searchText)){
+        if((!searchText || /^\s*$/.test(searchText)) && !activeRegion){
             setFilteredCountries(countries)
         }
         
-        else{
-            setFilteredCountries(countries.filter(({name}) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1))
+        else if(!activeRegion){
+            const filterBySearch = countries.filter(({name}) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+            setFilteredCountries(filterBySearch)
         }
-    }, [searchText, countries])
+
+        else if(!searchText || /^\s*$/.test(searchText)){
+            const filterByRegion = countries.filter(({region}) => region === activeRegion )
+            setFilteredCountries(filterByRegion)
+        }
+
+        else{
+            const filterBySearch = countries.filter(({name}) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+
+            const fullFilter = filterBySearch.filter(({region}) => region.toLowerCase() === activeRegion )
+
+            setFilteredCountries(fullFilter)
+        }
+    }, [searchText, countries, activeRegion])
 
 
     useEffect(() => {
@@ -62,7 +77,7 @@ const Home = () => {
         <Container>
             <Form>
                 <SearchBar setSearchText={setSearchText} />
-                <Dropdown />
+                <Dropdown setActiveRegion={setActiveRegion} />
             </Form>
             <Section>
                 {!countriesApi.isLoading && !error &&
