@@ -29,11 +29,11 @@ const SearchIcon = () => {
     )
 }
 
-const SearchBar = () => {
+const SearchBar = ({ setSearchText }) => {
     return (
         <SearchBox>
             <SearchIcon />
-            <Input type="text" role="searchbox" placeholder="Search for a country ..." />
+            <Input type="text" role="searchbox" placeholder="Search for a country ..." onChange = {(e) => setSearchText(e.target.value)} />
         </SearchBox>
     )
 }

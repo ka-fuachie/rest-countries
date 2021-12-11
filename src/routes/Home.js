@@ -24,7 +24,9 @@ const Section = styled.section`
 
 const Home = () => {
     const [countries, setCountries] = useState([])
+    const [filteredCountries, setFilteredCountries] = useState([])
     const [error, setError] = useState(false)
+    const [searchText, setSearchText] = useState('')
     const countriesApi = useApi()
 
     const loadData = useRef(() => {})
@@ -35,6 +37,17 @@ const Home = () => {
         // console.log([data, error]);
         // console.log(data.map(value => formatCountryData(value)));
     }
+
+    useEffect(() => {
+        if(!searchText || /^\s*$/.test(searchText)){
+            setFilteredCountries(countries)
+        }
+        
+        else{
+            setFilteredCountries(countries.filter(({name}) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1))
+        }
+    }, [searchText, countries])
+
 
     useEffect(() => {
 
@@ -48,12 +61,12 @@ const Home = () => {
     return (
         <Container>
             <Form>
-                <SearchBar />
+                <SearchBar setSearchText={setSearchText} />
                 <Dropdown />
             </Form>
             <Section>
                 {!countriesApi.isLoading && !error &&
-                    countries.map((country, index) => (
+                    filteredCountries.map((country, index) => (
                         <CountryCard
                             name={country.name}
                             population={country.population}
