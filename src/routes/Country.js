@@ -67,7 +67,7 @@ const Country = () => {
         setError(error)
 
         const tempBorders = formatCountryData(await data).borders
-        console.log(tempBorders);
+        // console.log(tempBorders);
 
         const tempBorderNames = await Promise.all(
             tempBorders.map(async (b) => {
@@ -81,19 +81,14 @@ const Country = () => {
         // formatCountryData(data).borders.forEach(border => console.log(countriesApi.getBorder(border)));        
     }
 
-    // const reLoadData = (link) => {
-    //     navigate(link)
-    //     setTimeout(() => loadData(), 2000)
-    // }
-
     useEffect(() => {
         loadData.current()
 
         return () => {
             setCountry({})
+            setBorders([])
+            setError(false)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-
 
     }, [params.country])
 

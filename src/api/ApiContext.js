@@ -36,17 +36,17 @@ const fetchCountry = async(name, callback, type) => {
 }
 
 const ApiProvider = ({children}) => {
-    const [cache, setCache] = useState({})
+    const [cache, setCache] = useState({countries: []})
     const [isLoading, setIsLoading] = useState(true)
     const [isProcessing, setIsProcessing] = useState(true)
     
     const getCountries = async () => {
-        if(cache.countries != null) return [cache.countries, false]
+        if(cache.countries.length > 200) return [cache.countries, false]
 
         setIsLoading(true)
         const [countries, error] = await fetchCountries(() => setIsLoading(false))
         setCache((prevValue) => (
-            {countries}
+            {...prevValue, countries}
         ))
         return [countries, error]
     }
@@ -54,19 +54,26 @@ const ApiProvider = ({children}) => {
     const getCountry = async (name) => {
         let error
         setIsProcessing(true)
-        let country = cache?.countries?.filter(country => country.name.common.toLowerCase() === name)[0]
+        let country = cache?.countries?.filter(country => country?.name?.common?.toLowerCase() === name)[0]
         if(country != null) {
             setIsProcessing(false)
             return [country, false]
         }
 
         [country, error] = await fetchCountry(name, () => setIsProcessing(false))
+        setCache((prevValue) => (
+            {
+                ...prevValue, 
+                countries: [...prevValue.countries, ...country]
+            }
+        ))
 
         return [country[0], error]
     }
 
     const getBorderName = async (code) => {
-        let country = cache?.countries?.filter(country => country.cca3 === code.toLowerCase())[0]
+        let country = cache?.countries?.filter(country => country.cca3 === code)[0]
+
         if(country != null) return [country.name.common, false]
     
         let error = false

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useApi } from "../api/ApiContext"
 import formatCountryData from "../utils/formatCountriesData"
@@ -27,7 +27,8 @@ const Home = () => {
     const [error, setError] = useState(false)
     const countriesApi = useApi()
 
-    const loadData = async () => {
+    const loadData = useRef(() => {})
+    loadData.current = async () => {
         const [data, error] = await countriesApi.getCountries()
         setCountries(data.map(value => formatCountryData(value)))
         setError(error)
@@ -37,12 +38,11 @@ const Home = () => {
 
     useEffect(() => {
 
-        loadData()
+        loadData.current()
 
         return () => {
             setCountries([])
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
