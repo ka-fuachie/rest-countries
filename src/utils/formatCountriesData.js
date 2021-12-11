@@ -1,6 +1,7 @@
 import { arrayToString, numberWithCommas } from "./utilities"
 
-const formatCountryData = country => {
+
+const formatCountryData = (country) => {
     return{
         name: country.name.common,
 

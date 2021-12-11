@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router"
+import { useEffect, useState, useRef } from "react"
+import { useParams, useNavigate} from "react-router"
 import styled from "styled-components"
 import { useApi } from "../api/ApiContext"
 import formatCountryData from "../utils/formatCountriesData"
@@ -45,31 +45,57 @@ const Bold = styled.span`
     font-weight: var(--fw-bold);
     padding-right: 0.5em;
 `
+const FlexBox = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2em;
+`
 
 const Country = () => {
     const params = useParams()
     const countriesApi = useApi()
     const navigate = useNavigate()
     const [country, setCountry] = useState({})
+    const [borders, setBorders] = useState([])
     const [error, setError] = useState(false)
 
 
-    const loadData = async () => {
+    const loadData = useRef(() => {})
+    loadData.current = async () => {
         const [data, error] = await countriesApi.getCountry(params.country.replace(/_/g, ' '))
-        setCountry(formatCountryData(data))
+        setCountry(formatCountryData(await data))
         setError(error)
-        // console.log([formatCountryData(data), error]);
+
+        const tempBorders = formatCountryData(await data).borders
+        console.log(tempBorders);
+
+        const tempBorderNames = await Promise.all(
+            tempBorders.map(async (b) => {
+                const temp = await countriesApi.getBorderName(b)
+                return temp;
+            }))
+
+        setBorders(await tempBorderNames)
+
+        // console.log([formatCountryData(data).borders, error]);
+        // formatCountryData(data).borders.forEach(border => console.log(countriesApi.getBorder(border)));        
     }
 
+    // const reLoadData = (link) => {
+    //     navigate(link)
+    //     setTimeout(() => loadData(), 2000)
+    // }
 
     useEffect(() => {
-        loadData()
+        loadData.current()
 
         return () => {
             setCountry({})
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
+
+    }, [params.country])
 
 
     const goBack = () => navigate(-1)
@@ -102,12 +128,16 @@ const Country = () => {
 
                         <Box>
                             <Bold as="p">Border Countries:</Bold>
-                            {/* {country?.borders.map(border => (
-                                <Button>{border}</Button>
-                            ))} */}
+                            <FlexBox>
+                                {borders.map(([border, status], index) => {
+                                    const link = border.toLowerCase().replace(/\s+/g, "_")
+                                    return(
+                                        <Button key={index + 1} onClick={() => navigate(`/country/${link}`)}>{border}</Button>
+                                        )
+})}
+                            </FlexBox>
                         </Box>
                     </>
-
                 }
             </Section>
         </Container>

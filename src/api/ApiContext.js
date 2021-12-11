@@ -4,7 +4,6 @@ const ApiContext = React.createContext()
 export const useApi = () => (useContext(ApiContext))
 
 
-// TODO: Add try catch for error handling to async funcs
 const fetchCountries = async(callback) => {
     let error = false
     try{
@@ -20,7 +19,7 @@ const fetchCountries = async(callback) => {
     }
 }
 
-const fetchCountry = async(name, callback) => {
+const fetchCountry = async(name, callback, type) => {
     let error = false
     try{
         const res = await fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,region,nativeName,subregion,tld,languages,currencies,flag,flags,borders,cca3`)
@@ -66,11 +65,26 @@ const ApiProvider = ({children}) => {
         return [country[0], error]
     }
 
+    const getBorderName = async (code) => {
+        let country = cache?.countries?.filter(country => country.cca3 === code.toLowerCase())[0]
+        if(country != null) return [country.name.common, false]
+    
+        let error = false
+        try{
+            const res = await fetch(`https://restcountries.com/v3.1/alpha/${code.toLowerCase()}?fields=name`)
+            const data = await res.json()
+            return [data.name.common, error]    
+        }catch(e){
+            error = true
+            return [code, error]
+        }
+    }    
 
     return (
         <ApiContext.Provider value={{
             getCountries,
             getCountry,
+            getBorderName,
             isLoading,
             isProcessing,
             cache
