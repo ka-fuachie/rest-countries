@@ -50,7 +50,7 @@ const Home = () => {
         }
 
         else if(!searchText || /^\s*$/.test(searchText)){
-            const filterByRegion = countries.filter(({region}) => region === activeRegion )
+            const filterByRegion = countries.filter(({region}) => region.toLowerCase() === activeRegion )
             setFilteredCountries(filterByRegion)
         }
 
