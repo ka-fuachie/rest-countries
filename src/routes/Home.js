@@ -35,6 +35,7 @@ const Home = () => {
         const [data, error] = await countriesApi.getCountries()
         setCountries(data.map(value => formatCountryData(value)))
         setError(error)
+        // console.log(data.map(value => formatCountryData(value).logo).reduce((tot, cur) => tot += " " + cur))
         // console.log([data, error]);
         // console.log(data.map(value => formatCountryData(value)));
     }

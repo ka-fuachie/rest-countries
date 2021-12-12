@@ -7,6 +7,8 @@ const formatCountryData = (country) => {
 
         flag: country.flags.svg,
 
+        logo: country.flag,
+
         nativeName: Object.values(country.name.nativeName).map(value => value.common)[Object.values(country.name.nativeName).length - 1],
 
         population: numberWithCommas(country.population),
