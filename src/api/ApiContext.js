@@ -24,7 +24,8 @@ const fetchCountry = async(name, callback, type) => {
     try{
         const res = await fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,region,nativeName,subregion,tld,languages,currencies,flag,flags,borders,cca3`)
 
-        const data = await res.json()  
+        const data = await res.json()
+        if(!res.ok) throw(new Error())
         return [data, error] 
     }catch(e){
         error = true
@@ -45,7 +46,7 @@ const ApiProvider = ({children}) => {
 
         setIsLoading(true)
         const [countries, error] = await fetchCountries(() => setIsLoading(false))
-        setCache((prevValue) => (
+        !error && setCache((prevValue) => (
             {...prevValue, countries}
         ))
         return [countries, error]
@@ -61,13 +62,14 @@ const ApiProvider = ({children}) => {
         }
 
         [country, error] = await fetchCountry(name, () => setIsProcessing(false))
-        setCache((prevValue) => (
+        !error && setCache((prevValue) => (
             {
                 ...prevValue, 
                 countries: [...prevValue.countries, ...country]
             }
         ))
-
+        
+        if(country === null) return [null, error]
         return [country[0], error]
     }
 

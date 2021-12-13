@@ -68,17 +68,18 @@ const Country = () => {
         setCountry(formatCountryData(await data))
         setError(error)
 
-        const tempBorders = formatCountryData(await data).borders
-        // console.log(tempBorders);
-
-        const tempBorderNames = await Promise.all(
-            tempBorders.map(async (b) => {
-                const temp = await countriesApi.getBorderName(b)
-                return temp;
-            }))
-
-        setBorders(await tempBorderNames)
-
+        if(!error) {
+            const tempBorders = formatCountryData(await data).borders
+    
+            const tempBorderNames = await Promise.all(
+                tempBorders.map(async (b) => {
+                    const temp = await countriesApi.getBorderName(b)
+                    return temp;
+                }))
+    
+            setBorders(await tempBorderNames)
+    
+        }
         // console.log([formatCountryData(data).borders, error]);
         // formatCountryData(data).borders.forEach(border => console.log(countriesApi.getBorder(border)));        
     }

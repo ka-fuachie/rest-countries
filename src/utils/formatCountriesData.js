@@ -2,6 +2,7 @@ import { arrayToString, numberWithCommas } from "./utilities"
 
 
 const formatCountryData = (country) => {
+    if(country === null) return {}
     return{
         name: country.name.common,
 

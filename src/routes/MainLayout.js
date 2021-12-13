@@ -9,7 +9,6 @@ const MainLayout = () => {
     const [showLoader, setShowLoader] = useState(false)
 
     useEffect(() => {
-        isLoading && console.log('yh');
         isLoading && setShowLoader(true)
         !isLoading && setTimeout(() => setShowLoader(false), 2000)
     }, [isLoading])

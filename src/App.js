@@ -9,6 +9,7 @@ import ThemeProvider from './theme/ThemeContext';
 import MainLayout from './routes/MainLayout';
 import Home from './routes/Home';
 import Country from './routes/Country';
+import Error404 from './routes/Error404';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/country/:country" element={<Country />} />
             </Route>
+            <Route path="*" element={<Error404 />} />
           </Routes>
         </ThemeProvider>
       </ApiProvider>
