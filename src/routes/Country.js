@@ -14,7 +14,8 @@ const Button = styled.button`
     gap: 0.25em;
     padding: 0.25em 1em;
     border-radius: 0.25em;
-    cursor: pointer;
+    cursor: ${({error}) => error? 'not-allowed': 'pointer'};
+    opacity: ${({error}) => error? 0.75: 1};
 `
 
 const BackSvg = () => (
@@ -125,10 +126,10 @@ const Country = () => {
                         <Box>
                             <Bold as="p">Border Countries:</Bold>
                             <FlexBox>
-                                {borders.map(([border, status], index) => {
+                                {borders.map(([border, error], index) => {
                                     const link = border.toLowerCase().replace(/\s+/g, "_")
                                     return(
-                                        <Button key={index + 1} onClick={() => navigate(`/country/${link}`)}>{border}</Button>
+                                        <Button key={index + 1} onClick={() => !error && navigate(`/country/${link}`)} error={error} >{border}</Button>
                                         )
 })}
                             </FlexBox>
