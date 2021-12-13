@@ -6,6 +6,7 @@ import Container from "../components/Container"
 import SearchBar from "../components/SearchBar"
 import Dropdown from "../components/Dropdown"
 import CountryCard from "../components/CountryCard"
+import ErrorAction from "../components/ErrorAction"
 
 const Form = styled.form`
     display: flex;
@@ -30,7 +31,7 @@ const Home = () => {
     const [searchText, setSearchText] = useState('')
     const countriesApi = useApi()
 
-    const loadData = useRef(() => {})
+    const loadData = useRef(() => { })
     loadData.current = async () => {
         const [data, error] = await countriesApi.getCountries()
         setCountries(data.map(value => formatCountryData(value)))
@@ -41,24 +42,24 @@ const Home = () => {
     }
 
     useEffect(() => {
-        if((!searchText || /^\s*$/.test(searchText)) && !activeRegion){
+        if ((!searchText || /^\s*$/.test(searchText)) && !activeRegion) {
             setFilteredCountries(countries)
         }
-        
-        else if(!activeRegion){
-            const filterBySearch = countries.filter(({name}) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+
+        else if (!activeRegion) {
+            const filterBySearch = countries.filter(({ name }) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
             setFilteredCountries(filterBySearch)
         }
 
-        else if(!searchText || /^\s*$/.test(searchText)){
-            const filterByRegion = countries.filter(({region}) => region.toLowerCase() === activeRegion )
+        else if (!searchText || /^\s*$/.test(searchText)) {
+            const filterByRegion = countries.filter(({ region }) => region.toLowerCase() === activeRegion)
             setFilteredCountries(filterByRegion)
         }
 
-        else{
-            const filterBySearch = countries.filter(({name}) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+        else {
+            const filterBySearch = countries.filter(({ name }) => name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
 
-            const fullFilter = filterBySearch.filter(({region}) => region.toLowerCase() === activeRegion )
+            const fullFilter = filterBySearch.filter(({ region }) => region.toLowerCase() === activeRegion)
 
             setFilteredCountries(fullFilter)
         }
@@ -93,7 +94,12 @@ const Home = () => {
                         />
                     ))
                 }
-
+                {error &&
+                    <ErrorAction 
+                    action={() => loadData.current()} 
+                    msg="An error occured when countries data was been loaded"
+                    />
+                }
             </Section>
         </Container>
     )
