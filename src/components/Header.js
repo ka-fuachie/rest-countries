@@ -51,7 +51,7 @@ const Header = () => {
             <Link to="/">
                 <Title>Where in the world?</Title>
             </Link>
-            <Button role="switch" aria-checked="false" onClick={toggleTheme} >
+            <Button role="switch" aria-checked={theme.darkMode} onClick={toggleTheme} >
                 <MoonIcon />
                 <p>Dark mode</p>
             </Button>

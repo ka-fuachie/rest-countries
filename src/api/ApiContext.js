@@ -19,7 +19,7 @@ const fetchCountries = async(callback) => {
     }
 }
 
-const fetchCountry = async(name, callback, type) => {
+const fetchCountry = async(name, callback) => {
     let error = false
     try{
         const res = await fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,region,nativeName,subregion,tld,languages,currencies,flag,flags,borders,cca3`)

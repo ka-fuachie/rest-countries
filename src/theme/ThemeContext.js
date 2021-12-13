@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useLayoutEffect } from 'react'
 import { createGlobalStyle } from 'styled-components'
 
 const ThemeContext = React.createContext()
@@ -42,6 +42,10 @@ const DarkStyles = createGlobalStyle`
 
 const ThemeProvider = ({children}) => {
     const [darkMode, setdarkMode] = useState(false)
+
+    useLayoutEffect(() => {
+        matchMedia('(prefers-color-scheme: dark)').matches && setdarkMode(true)
+    }, [])
 
     const toggleTheme = () => {
         setdarkMode((prevState) => !prevState)
