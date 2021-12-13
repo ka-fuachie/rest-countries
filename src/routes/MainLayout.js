@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useLayoutEffect } from "react"
 import { Outlet } from "react-router"
 import { useApi } from "../api/ApiContext"
 import Header from '../components/Header'
@@ -8,7 +8,7 @@ const MainLayout = () => {
     const { isLoading } = useApi()
     const [showLoader, setShowLoader] = useState(false)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         isLoading && setShowLoader(true)
         !isLoading && setTimeout(() => setShowLoader(false), 2000)
     }, [isLoading])
