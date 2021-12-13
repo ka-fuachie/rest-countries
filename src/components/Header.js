@@ -45,6 +45,7 @@ const MoonIcon = () => {
 
 const Header = () => {
     const toggleTheme = useUpdateTheme()
+    const theme = useTheme()
 
     return (
         <StyledHeader>
