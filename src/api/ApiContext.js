@@ -37,8 +37,8 @@ const fetchCountry = async(name, callback, type) => {
 
 const ApiProvider = ({children}) => {
     const [cache, setCache] = useState({countries: []})
-    const [isLoading, setIsLoading] = useState(true)
-    const [isProcessing, setIsProcessing] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isProcessing, setIsProcessing] = useState(false)
     
     const getCountries = async () => {
         if(cache.countries.length > 200) return [cache.countries, false]

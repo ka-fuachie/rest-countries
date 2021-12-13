@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { useApi } from "../api/ApiContext"
 import formatCountryData from "../utils/formatCountriesData"
 import Container from "../components/Container"
+import ErrorAction from "../components/ErrorAction"
 
 const Button = styled.button`
     border: none;
@@ -133,6 +134,12 @@ const Country = () => {
                             </FlexBox>
                         </Box>
                     </>
+                }
+                {error &&
+                    <ErrorAction 
+                        action={() => loadData.current()}
+                        msg={`An error occured when ${params.country}'s data was been loaded`}
+                    />
                 }
             </Section>
         </Container>
